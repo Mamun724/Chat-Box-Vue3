@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-1">
-    <v-row v-if="authUser.username !== message.sender">
+    <v-row v-if="sender.username !== message.sender">
       <v-col cols="10">
         <div class="d-flex align-start">
           <v-avatar size="36" class="mr-2 avatar">
@@ -20,7 +20,7 @@
             {{ message.content }}
           </div>
           <v-avatar size="36" class="ml-2 avatar">
-            <img :src="authUser.profilePicture" :alt="authUser.username">
+            <img :src="sender.profilePicture" :alt="sender.username">
           </v-avatar>
         </div>
       </v-col>
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      authUser: "getAuthenticatedUser",
+      sender: "getAuthenticatedUser",
       receiver: "getReceiver"
     }),
     messageTime() {
