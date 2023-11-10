@@ -1,20 +1,6 @@
 <template>
   <div class="fill-height">
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-            alt="Site Logo"
-            class="shrink mr-2"
-            contain
-            src="@/assets/logo.png"
-            transition="scale-transition"
-            width="40"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-      <logout-component/>
-    </v-app-bar>
+    <AppBar />
 
     <v-main class="fill-height main-content">
       <div class="messages-area px-2 py-2">
@@ -36,15 +22,15 @@
 </template>
 
 <script>
-import LogoutComponent from "@/components/LogoutComponent.vue";
 import MessageComponent from "@/components/MessageComponent.vue";
 import {mapActions, mapGetters} from "vuex";
+import AppBar from "@/components/AppBar.vue";
 
 export default {
   name: "ChatComponent",
   components: {
-    "message-component": MessageComponent,
-    "logout-component": LogoutComponent
+    AppBar,
+    "message-component": MessageComponent
   },
   data() {
     return {
