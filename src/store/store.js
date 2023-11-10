@@ -41,5 +41,8 @@ export default new Vuex.Store({
 
             return user;
         },
+        logoutUser({commit}) {
+            commit("setAuthUser", null)
+        }
     },
 });

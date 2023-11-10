@@ -10,6 +10,9 @@
           <v-alert v-if="authFailed" type="error" outlined dense>
             Email or Password is not correct.
           </v-alert>
+          <v-alert v-if="errorRedirect" type="warning" outlined dense>
+            Please login first to access the route.
+          </v-alert>
 
           <v-text-field
               v-model="loginData.email"
@@ -59,7 +62,8 @@ export default {
         minLength: value => value.length >= 2 || "At least 2 characters required.",
         maxLength: value => value.length <= 255 || "At most 255 characters allowed.",
         email: value => constants.validEmailRegex.test(value) || "Email is not valid.",
-      }
+      },
+      errorRedirect: false
     };
   },
   methods: {
@@ -73,7 +77,6 @@ export default {
       }
 
       const loggedInUser = await this.loginUserAsync(this.loginData);
-      console.log({loggedInUser});
       if (!loggedInUser) {
         this.authFailed = true;
         return;
@@ -82,6 +85,9 @@ export default {
       await this.$router.push({path: "/chat"});
     },
     ...mapActions(["loginUserAsync"])
+  },
+  created() {
+    this.errorRedirect = !!this.$route.query["errorRedirect"];
   }
 }
 </script>

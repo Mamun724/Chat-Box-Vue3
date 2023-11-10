@@ -1,17 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import AppVue from "../App.vue";
 import SignupComponent from "../components/SignupComponent.vue";
 import NotFoundComponent from "@/components/NotFoundComponent.vue";
 import LoginComponent from "@/components/LoginComponent.vue";
+import ChatComponent from "@/components/ChatComponent.vue";
+import store from "@/store/store";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: AppVue,
+    redirect: "/chat"
   },
   {
     path: "/signup",
@@ -22,6 +22,18 @@ const routes = [
     path: "/login",
     name: "login",
     component: LoginComponent,
+  },
+  {
+    path: "/chat",
+    name: "chat",
+    component: ChatComponent,
+    beforeEnter: (to, from, next) => {
+      if(store.getters.isAuthenticated) {
+        next();
+      } else {
+        next({path: "/login", query: {"errorRedirect": "auth"}});
+      }
+    }
   },
   {
     path: "*",
