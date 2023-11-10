@@ -6,7 +6,7 @@
           <v-avatar size="36" class="mr-2 avatar">
             <img :src="receiver.profilePicture" :alt="receiver.username">
           </v-avatar>
-          <div class="message-content">
+          <div class="message-content" :title="messageTime">
             {{ message.content }}
           </div>
         </div>
@@ -16,7 +16,7 @@
       <v-spacer/>
       <v-col class="text-right" cols="10">
         <div class="d-flex align-start justify-end">
-          <div class="message-content">
+          <div class="message-content" :title="messageTime">
             {{ message.content }}
           </div>
           <v-avatar size="36" class="ml-2 avatar">
@@ -40,7 +40,10 @@ export default {
     ...mapGetters({
       authUser: "getAuthenticatedUser",
       receiver: "getReceiver"
-    })
+    }),
+    messageTime() {
+      return this.message.timestamp.toString();
+    }
   }
 }
 </script>
