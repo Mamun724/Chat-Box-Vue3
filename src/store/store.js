@@ -7,7 +7,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         registeredUsers: [],
-        authenticatedUser: null
+        authenticatedUser: null,
+        receiverUser: {
+            username: "receiver-user",
+            profilePicture: "/assets/receiver-profile-pic.jpg"
+        },
+        messages: []
     },
     getters: {
         findUser(state) {
@@ -15,6 +20,15 @@ export default new Vuex.Store({
         },
         isAuthenticated(state) {
             return state.authenticatedUser != null;
+        },
+        getAuthenticatedUser(state) {
+            return state.authenticatedUser;
+        },
+        getMessages(state) {
+            return state.messages;
+        },
+        getReceiver(state) {
+            return state.receiverUser;
         }
     },
     mutations: {
@@ -23,6 +37,9 @@ export default new Vuex.Store({
         },
         setAuthUser(state, authUser) {
             state.authenticatedUser = authUser;
+        },
+        addMessage(state, message) {
+            state.messages.push((message));
         }
     },
     actions: {
@@ -43,6 +60,10 @@ export default new Vuex.Store({
         },
         logoutUser({commit}) {
             commit("setAuthUser", null)
+        },
+        async sendMessageAsync({commit}, message) {
+            await delaySim(300);
+            commit("addMessage", message);
         }
     },
 });

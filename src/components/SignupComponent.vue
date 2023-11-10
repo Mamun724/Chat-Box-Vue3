@@ -100,7 +100,7 @@ export default {
         this.passwordMismatch = false;
       }
 
-      const profilePicturePath = this.signUpData?.profilePicture ? "@/assets/user-profile-pic.jpg" : null;
+      const profilePicturePath = this.signUpData?.profilePicture ? "/assets/user-profile-pic.jpg" : null;
 
       const userData = {
         ...this.signUpData,
