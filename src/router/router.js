@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import AppVue from "../App.vue";
 import SignupComponent from "../components/SignupComponent.vue";
 import NotFoundComponent from "@/components/NotFoundComponent.vue";
+import LoginComponent from "@/components/LoginComponent.vue";
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ const routes = [
     path: "/signup",
     name: "signup",
     component: SignupComponent,
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginComponent,
   },
   {
     path: "*",
