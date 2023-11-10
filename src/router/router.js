@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import AppVue from "../App.vue";
+import SignupComponent from "../components/SignupComponent.vue";
+import NotFoundComponent from "@/components/NotFoundComponent.vue";
 
 Vue.use(VueRouter);
 
@@ -10,6 +12,16 @@ const routes = [
     name: "home",
     component: AppVue,
   },
+  {
+    path: "/signup",
+    name: "signup",
+    component: SignupComponent,
+  },
+  {
+    path: "*",
+    name: "not-found",
+    component: NotFoundComponent
+  }
 ];
 
 const router = new VueRouter({
