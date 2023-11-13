@@ -39,7 +39,7 @@ export default {
     left: 0;
     top: 0;
     bottom: 0;
-    border-right: 1px solid black;
+    border-right: 1px solid #ddd;
   }
 
   .content-area {

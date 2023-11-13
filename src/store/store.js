@@ -141,7 +141,7 @@ export default new Vuex.Store({
                 }
             );
 
-            if(getters.getReceiver && getters.getReceiver.email === friend.email) {
+            if (getters.getReceiver && getters.getReceiver.email === friend.email) {
                 commit("setReceiver", null);
             }
         }

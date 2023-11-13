@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <div class="friends-list py-2 pr-2">
+  <div class="friends-list py-2">
     <template v-for="friend of friendUsers">
       <FriendComponent
           :class="{selected: friend.username === receiver?.username}"
