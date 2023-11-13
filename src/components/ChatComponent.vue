@@ -6,13 +6,15 @@
       <div class="left-sidebar pt-16">
         <div class="friends-list pa-4" style="background-color: grey">
           <p v-for="n in 100" :key="n">
-            Sidebar item {{n}}
+            Sidebar item {{ n }}
           </p>
         </div>
       </div>
-      <div class="char-area">
-        <div class="messages-area pb-2 pt-16 py-2" ref="message-list">
-          <message-component v-for="message in messages" :key="message.randId" :message="message"/>
+      <div class="chat-area">
+        <div class="message-list-wrapper pl-2">
+          <div class="message-list py-2" ref="message-list">
+            <message-component v-for="message in messages" :key="message.randId" :message="message"/>
+          </div>
         </div>
         <div class="send-box-area d-flex align-center">
           <v-text-field
@@ -106,10 +108,12 @@ export default {
 <style scoped lang="scss">
 .main-content {
   $sendBoxHeight: 64px;
+  $appBarHeight: 64px;
+  $leftSideBarWidth: 33%;
   position: relative;
 
   .left-sidebar {
-    width: 33%;
+    width: $leftSideBarWidth;
     position: fixed;
     left: 0;
     top: 0;
@@ -117,20 +121,26 @@ export default {
     border-right: 1px solid black;
 
     .friends-list {
-      height: calc(100vh - 64px);
+      height: calc(100vh - #{$appBarHeight});
       overflow-y: auto;
     }
   }
 
-  .char-area {
+  .chat-area {
+    height: calc(100vh - #{$appBarHeight});
     width: 67%;
-    margin-left: 33%;
+    margin-left: $leftSideBarWidth;
 
-    .messages-area {
+    .message-list-wrapper {
+      height: calc(100% - #{$sendBoxHeight});
       display: flex;
       flex-direction: column;
       justify-content: end;
-      height: calc(100% - #{$sendBoxHeight});
+
+      .message-list {
+        max-height: 100%;
+        overflow-y: auto;
+      }
     }
 
     .send-box-area {
