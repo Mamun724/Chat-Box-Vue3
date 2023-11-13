@@ -45,7 +45,13 @@ export default new Vuex.Store({
         ],
         authenticatedUser: null,
         receiverUser: null,
-        friends: ["user2@email.com", "user1@email.com", "user3@email.com", "user5@email.com"],
+        friendsGraph: {
+            "user1@email.com": ["user2@email.com", "user3@email.com", "user5@email.com"],
+            "user2@email.com": ["user1@email.com", "user5@email.com"],
+            "user3@email.com": ["user1@email.com", "user4@email.com", "user5@email.com"],
+            "user4@email.com": ["user3@email.com", "user5@email.com"],
+            "user5@email.com": ["user3@email.com", "user2@email.com", "user1@email.com", "user4@email.com"],
+        },
         messages: []
     },
     getters: {
@@ -65,8 +71,9 @@ export default new Vuex.Store({
             return state.receiverUser;
         },
         getFriends(state, getters) {
+            let authUser = getters.getAuthenticatedUser;
             return state
-                .friends
+                .friendsGraph[authUser.email]
                 .map(email => getters.findUser(email));
         }
     },
