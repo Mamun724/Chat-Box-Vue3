@@ -1,16 +1,22 @@
 <script>
 import {mapActions, mapMutations} from "vuex";
+import ConfirmationDialogComponent from "@/components/ConfirmationDialogComponent.vue";
 
 export default {
   name: "FriendComponent",
+  components: {ConfirmationDialogComponent},
   props: {
     friend: {}
+  },
+  data() {
+    return {showDialog: false};
   },
   methods: {
     friendClicked() {
       this.setReceiver(this.friend);
     },
-    async unfriendAction() {
+    async unfriendConfirmed(event) {
+      event.stopPropagation();
       await this.unfriend(this.friend);
     },
     ...mapMutations(["setReceiver"]),
@@ -31,9 +37,15 @@ export default {
     </v-list-item-content>
 
     <v-list-item-action>
-      <v-btn icon @click.stop="unfriendAction">
-        <v-icon color="grey lighten-1">mdi-close</v-icon>
-      </v-btn>
+      <ConfirmationDialogComponent
+          title="Are you sure?"
+          :message="`Are you sure to unfriend '${friend.username}'?`"
+          :activatorButtonIcon="true"
+          @confirmed="unfriendConfirmed">
+        <template v-slot:activatorBtnContent>
+          <v-icon color="grey lighten-1">mdi-close</v-icon>
+        </template>
+      </ConfirmationDialogComponent>
     </v-list-item-action>
   </v-list-item>
 </template>
