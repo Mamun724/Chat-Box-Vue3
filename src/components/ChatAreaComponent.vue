@@ -1,13 +1,13 @@
 <script>
 import MessageComponent from "@/components/MessageComponent.vue";
 import {mapActions, mapGetters} from "vuex";
+import MessageSendBoxComponent from "@/components/MessageSendBoxComponent.vue";
 
 export default {
   name: "ChatAreaComponent",
-  components: {MessageComponent},
+  components: {MessageSendBoxComponent, MessageComponent},
   data() {
     return {
-      message: '',
       intervalId: null
     };
   },
@@ -32,27 +32,10 @@ export default {
       };
 
       await this.sendMessageAsync(msg);
-      this.$nextTick(() => this.scrollToEnd());
+      this.messageSent();
     },
-    async sendMessage() {
-      if (!this.message) {
-        return;
-      }
-
-      const msg = {
-        content: this.message,
-        sender: this.authUser.username,
-        receiver: this.receiver.username,
-        timestamp: new Date(),
-        randId: Math.random()
-      };
-
-      await this.sendMessageAsync(msg);
-      this.message = '';
+    messageSent() {
       this.$nextTick(() => this.scrollToEnd());
-    },
-    sendAttachment() {
-      console.log('send attachment');
     },
     scrollToEnd() {
       let messageListContainer = this.$refs["message-list"];
@@ -93,19 +76,7 @@ export default {
         <message-component v-for="message in messages" :key="message.randId" :message="message"/>
       </div>
     </div>
-    <div class="send-box-area d-flex align-center">
-      <v-text-field
-          v-model="message"
-          append-icon="mdi-send"
-          append-outer-icon="mdi-attachment"
-          text
-          class="mx-3"
-          placeholder="Write message here..."
-          :disabled="!receiver"
-          @keyup.enter="sendMessage"
-          @click:append="sendMessage"
-          @click:append-outer="sendAttachment"/>
-    </div>
+    <message-send-box-component @messageSent="messageSent"/>
   </div>
 </template>
 
@@ -126,16 +97,6 @@ $appBarHeight: 64px;
       max-height: 100%;
       overflow-y: auto;
     }
-  }
-
-  .send-box-area {
-    height: $sendBoxHeight;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    box-shadow: 0 -3px 3px 0 rgba(0, 0, 0, 0.1);
-    background-color: white;
   }
 }
 </style>
