@@ -34,10 +34,29 @@ export default {
   },
   data() {
     return {
-      message: ''
+      message: '',
+      intervalId: null
     };
   },
+  created() {
+    this.intervalId = setInterval(() => this.simulateReceiver(), 5000);
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalId);
+  },
   methods: {
+    async simulateReceiver() {
+      let message = `Simulating receiver message at ${new Date().toLocaleTimeString()}`;
+      const msg = {
+        content: message,
+        sender: this.receiver.username,
+        receiver: this.authUser.username,
+        timestamp: new Date(),
+        randId: Math.random()
+      };
+
+      await this.sendMessageAsync(msg);
+    },
     async sendMessage() {
       if (!this.message) {
         return;
