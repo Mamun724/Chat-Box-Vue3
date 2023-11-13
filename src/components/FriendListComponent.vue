@@ -17,7 +17,10 @@ export default {
 <template>
   <div class="friends-list py-2 pr-2">
     <template v-for="friend of friends">
-      <FriendComponent :class="{selected: friend.username === receiver.username}" :friend="friend" :key="friend.username"/>
+      <FriendComponent
+          :class="{selected: friend.username === receiver?.username}"
+          :friend="friend"
+          :key="friend.username"/>
       <v-divider :key="friend.username + friend.username"/>
     </template>
   </div>

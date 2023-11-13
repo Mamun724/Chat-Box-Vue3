@@ -44,13 +44,7 @@ export default new Vuex.Store({
             },
         ],
         authenticatedUser: null,
-        receiverUser: {
-            fullName: "User 5",
-            username: "user5",
-            email: "user5@email.com",
-            password: "123456",
-            profilePicture: "/assets/user5.jpg"
-        },
+        receiverUser: null,
         friends: ["user2@email.com", "user1@email.com", "user3@email.com", "user5@email.com"],
         messages: []
     },
@@ -107,7 +101,8 @@ export default new Vuex.Store({
             return user;
         },
         logoutUser({commit}) {
-            commit("setAuthUser", null)
+            commit("setAuthUser", null);
+            commit("setReceiver", null);
         },
         async sendMessageAsync({commit}, message) {
             await delaySim(300);

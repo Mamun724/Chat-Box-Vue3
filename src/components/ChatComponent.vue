@@ -8,7 +8,10 @@
       </div>
       <div class="chat-area">
         <div class="message-list-wrapper pl-2">
-          <div class="message-list py-2" ref="message-list">
+          <v-alert v-if="!receiver" class="text-center" outlined type="info">
+            Please select friend from left sidebar to start Chat.
+          </v-alert>
+          <div v-else class="message-list py-2" ref="message-list">
             <message-component v-for="message in messages" :key="message.randId" :message="message"/>
           </div>
         </div>
@@ -20,6 +23,7 @@
               text
               class="mx-3"
               placeholder="Write message here..."
+              :disabled="!receiver"
               @click:append="sendMessage"
               @click:append-outer="sendAttachment"/>
         </div>
@@ -55,6 +59,9 @@ export default {
   },
   methods: {
     async simulateReceiver() {
+      if(!this.receiver) {
+        return;
+      }
       let message = `Simulating receiver message at ${new Date().toLocaleTimeString()}`;
       const msg = {
         content: message,

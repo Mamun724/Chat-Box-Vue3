@@ -12,7 +12,7 @@
       <div>
         <small>Chatting with:</small>
         <br>
-        <span>{{ receiver.username }}</span>
+        <span>{{ receiver?.username || "Please select on the left sidebar." }}</span>
       </div>
     </div>
 
