@@ -140,6 +140,10 @@ export default new Vuex.Store({
                     newFriendList: updatedFriendList
                 }
             );
+
+            if(getters.getReceiver && getters.getReceiver.email === friend.email) {
+                commit("setReceiver", null);
+            }
         }
     },
 });
