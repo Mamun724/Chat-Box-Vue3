@@ -109,6 +109,7 @@ export default {
     right: 0;
     z-index: 5;
     box-shadow: 0 -3px 3px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
   }
 }
 </style>
