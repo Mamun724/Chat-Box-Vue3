@@ -88,14 +88,51 @@ export default new Vuex.Store({
         setReceiver(state, user) {
             state.receiverUser = user;
         },
-        updateFriendList(state, {userEmail, newFriendList}) {
-            state.friendsGraph[userEmail] = newFriendList;
+        modifyFriend(state, {userEmail, friendEmail, add = true}) {
+            if (!Object.keys(state.friendsGraph).includes(userEmail)) {
+                state.friendsGraph = {
+                    ...state.friendsGraph,
+                    [userEmail]: []
+                }
+            }
+
+            if (!Object.keys(state.friendsGraph).includes(friendEmail)) {
+                state.friendsGraph = {
+                    ...state.friendsGraph,
+                    [friendEmail]: []
+                }
+            }
+
+            if (add) {
+                state.friendsGraph[userEmail].push(friendEmail);
+                state.friendsGraph[friendEmail].push(userEmail);
+            } else {
+                state.friendsGraph[userEmail] = state.friendsGraph[userEmail].filter(email => email !== friendEmail);
+                state.friendsGraph[friendEmail] = state.friendsGraph[friendEmail].filter(email => email !== userEmail);
+            }
         }
     },
     actions: {
-        async registerUserAsync({commit}, user) {
+        async registerUserAsync({commit, state}, user) {
             await delaySim(300);
             commit("registerUser", user);
+
+            //Add 2 friends randomly
+            let existingUsers = Object.keys(state.friendsGraph);
+            let friendList = [];
+            while (friendList.length < 2) {
+                let index = Math.floor(Math.random() * existingUsers.length);
+                let email = existingUsers[index];
+                console.log(index, email);
+                if(!friendList.includes(email)) {
+                    commit("modifyFriend", {
+                        userEmail: user.email,
+                        friendEmail: email,
+                        add: true
+                    });
+                    friendList.push(email);
+                }
+            }
         },
         async loginUserAsync({commit, getters}, loginData) {
             await delaySim(300);
@@ -121,23 +158,11 @@ export default new Vuex.Store({
 
             let authUser = getters.getAuthenticatedUser;
 
-            let friends = getters.getFriends(authUser.email);
-            let updatedFriendList = friends.filter(email => email !== friend.email);
             commit(
-                "updateFriendList",
-                {
+                "modifyFriend", {
                     userEmail: authUser.email,
-                    newFriendList: updatedFriendList
-                }
-            );
-
-            friends = getters.getFriends(friend.email);
-            updatedFriendList = friends.filter(email => email !== authUser.email);
-            commit(
-                "updateFriendList",
-                {
-                    userEmail: friend.email,
-                    newFriendList: updatedFriendList
+                    friendEmail: friend.email,
+                    add: false
                 }
             );
 
