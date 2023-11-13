@@ -123,7 +123,6 @@ export default new Vuex.Store({
             while (friendList.length < 2) {
                 let index = Math.floor(Math.random() * existingUsers.length);
                 let email = existingUsers[index];
-                console.log(index, email);
                 if(!friendList.includes(email)) {
                     commit("modifyFriend", {
                         userEmail: user.email,
