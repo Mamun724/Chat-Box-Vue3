@@ -1,9 +1,9 @@
 <template>
   <div class="fill-height">
-    <AppBar />
+    <AppBar/>
 
     <v-main class="fill-height main-content">
-      <div class="messages-area px-2 py-2">
+      <div class="messages-area px-2 py-2" ref="message-list">
         <message-component v-for="message in messages" :key="message.randId" :message="message"/>
       </div>
       <div class="send-box-area d-flex align-center">
@@ -56,6 +56,7 @@ export default {
       };
 
       await this.sendMessageAsync(msg);
+      this.$nextTick(() => this.scrollToEnd());
     },
     async sendMessage() {
       if (!this.message) {
@@ -72,9 +73,14 @@ export default {
 
       await this.sendMessageAsync(msg);
       this.message = '';
+      this.$nextTick(() => this.scrollToEnd());
     },
     sendAttachment() {
       console.log('send attachment');
+    },
+    scrollToEnd() {
+      let messageListContainer = this.$refs["message-list"];
+      messageListContainer.lastElementChild.scrollIntoView({behavior: "smooth"});
     },
     ...mapActions(["sendMessageAsync"])
   },
