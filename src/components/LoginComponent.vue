@@ -82,7 +82,7 @@ export default {
         return;
       }
 
-      await this.$router.push({path: "/chat"});
+      await this.$router.push({path: "/"});
     },
     ...mapActions(["loginUserAsync"])
   },
