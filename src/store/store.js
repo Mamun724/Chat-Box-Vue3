@@ -6,12 +6,52 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        registeredUsers: [],
+        registeredUsers: [
+            {
+                fullName: "User 1",
+                username: "user1",
+                email: "user1@email.com",
+                password: "123456",
+                profilePicture: "/assets/user1.jfif"
+            },
+            {
+                fullName: "User 2",
+                username: "user2",
+                email: "user2@email.com",
+                password: "123456",
+                profilePicture: "/assets/user2.png"
+            },
+            {
+                fullName: "User 3",
+                username: "user3",
+                email: "user3@email.com",
+                password: "123456",
+                profilePicture: "/assets/user3.jfif"
+            },
+            {
+                fullName: "User 4",
+                username: "user4",
+                email: "user4@email.com",
+                password: "123456",
+                profilePicture: "/assets/user4.jfif"
+            },
+            {
+                fullName: "User 5",
+                username: "user5",
+                email: "user5@email.com",
+                password: "123456",
+                profilePicture: "/assets/user5.jpg"
+            },
+        ],
         authenticatedUser: null,
         receiverUser: {
-            username: "receiver-user",
-            profilePicture: "/assets/receiver-profile-pic.jpg"
+            fullName: "User 5",
+            username: "user5",
+            email: "user5@email.com",
+            password: "123456",
+            profilePicture: "/assets/user5.jpg"
         },
+        friends: ["user2@email.com", "user1@email.com", "user3@email.com", "user5@email.com"],
         messages: []
     },
     getters: {
@@ -29,6 +69,11 @@ export default new Vuex.Store({
         },
         getReceiver(state) {
             return state.receiverUser;
+        },
+        getFriends(state, getters) {
+            return state
+                .friends
+                .map(email => getters.findUser(email));
         }
     },
     mutations: {
@@ -40,6 +85,9 @@ export default new Vuex.Store({
         },
         addMessage(state, message) {
             state.messages.push((message));
+        },
+        setReceiver(state, user) {
+            state.receiverUser = user;
         }
     },
     actions: {

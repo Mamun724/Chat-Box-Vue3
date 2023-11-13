@@ -4,11 +4,7 @@
 
     <v-main class="fill-height main-content">
       <div class="left-sidebar pt-16">
-        <div class="friends-list pa-4" style="background-color: grey">
-          <p v-for="n in 100" :key="n">
-            Sidebar item {{ n }}
-          </p>
-        </div>
+        <friend-list-component/>
       </div>
       <div class="chat-area">
         <div class="message-list-wrapper pl-2">
@@ -36,10 +32,12 @@
 import MessageComponent from "@/components/MessageComponent.vue";
 import {mapActions, mapGetters} from "vuex";
 import AppBar from "@/components/AppBar.vue";
+import FriendListComponent from "@/components/FriendListComponent.vue";
 
 export default {
   name: "ChatComponent",
   components: {
+    FriendListComponent,
     AppBar,
     "message-component": MessageComponent
   },
@@ -91,16 +89,29 @@ export default {
     },
     scrollToEnd() {
       let messageListContainer = this.$refs["message-list"];
-      messageListContainer.lastElementChild.scrollIntoView({behavior: "smooth"});
+      messageListContainer?.lastElementChild?.scrollIntoView({behavior: "smooth"});
     },
     ...mapActions(["sendMessageAsync"])
   },
   computed: {
     ...mapGetters({
-      messages: "getMessages",
+      getMessages: "getMessages",
       authUser: "getAuthenticatedUser",
       receiver: "getReceiver"
-    })
+    }),
+    messages() {
+      return this.getMessages.filter(
+          message =>
+              (
+                  message.receiver === this.receiver.username &&
+                  message.sender === this.authUser.username
+              ) ||
+              (
+                  message.sender === this.receiver.username &&
+                  message.receiver === this.authUser.username
+              )
+      );
+    }
   }
 }
 </script>
@@ -119,11 +130,6 @@ export default {
     top: 0;
     bottom: 0;
     border-right: 1px solid black;
-
-    .friends-list {
-      height: calc(100vh - #{$appBarHeight});
-      overflow-y: auto;
-    }
   }
 
   .chat-area {
