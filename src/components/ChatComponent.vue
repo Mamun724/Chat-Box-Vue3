@@ -24,6 +24,7 @@
               class="mx-3"
               placeholder="Write message here..."
               :disabled="!receiver"
+              @keyup.enter="sendMessage"
               @click:append="sendMessage"
               @click:append-outer="sendAttachment"/>
         </div>
