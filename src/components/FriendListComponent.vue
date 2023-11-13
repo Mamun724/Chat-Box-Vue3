@@ -7,16 +7,22 @@ export default {
   components: {FriendComponent},
   computed: {
     ...mapGetters({
+      findUser: "findUser",
       friends: "getFriends",
-      receiver: "getReceiver"
-    })
+      receiver: "getReceiver",
+      authUser: "getAuthenticatedUser"
+    }),
+    friendUsers () {
+      return this.friends(this.authUser.email)
+          .map(email => this.findUser(email));
+    }
   }
 }
 </script>
 
 <template>
   <div class="friends-list py-2 pr-2">
-    <template v-for="friend of friends">
+    <template v-for="friend of friendUsers">
       <FriendComponent
           :class="{selected: friend.username === receiver?.username}"
           :friend="friend"

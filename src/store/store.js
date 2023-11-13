@@ -70,11 +70,9 @@ export default new Vuex.Store({
         getReceiver(state) {
             return state.receiverUser;
         },
-        getFriends(state, getters) {
-            let authUser = getters.getAuthenticatedUser;
-            return state
-                .friendsGraph[authUser.email]
-                .map(email => getters.findUser(email));
+        getFriends(state) {
+            return (userEmail) =>
+                state.friendsGraph[userEmail];
         }
     },
     mutations: {
@@ -89,6 +87,9 @@ export default new Vuex.Store({
         },
         setReceiver(state, user) {
             state.receiverUser = user;
+        },
+        updateFriendList(state, {userEmail, newFriendList}) {
+            state.friendsGraph[userEmail] = newFriendList;
         }
     },
     actions: {
@@ -114,6 +115,31 @@ export default new Vuex.Store({
         async sendMessageAsync({commit}, message) {
             await delaySim(300);
             commit("addMessage", message);
+        },
+        async unfriend({commit, getters}, friend) {
+            await delaySim(300);
+
+            let authUser = getters.getAuthenticatedUser;
+
+            let friends = getters.getFriends(authUser.email);
+            let updatedFriendList = friends.filter(email => email !== friend.email);
+            commit(
+                "updateFriendList",
+                {
+                    userEmail: authUser.email,
+                    newFriendList: updatedFriendList
+                }
+            );
+
+            friends = getters.getFriends(friend.email);
+            updatedFriendList = friends.filter(email => email !== authUser.email);
+            commit(
+                "updateFriendList",
+                {
+                    userEmail: friend.email,
+                    newFriendList: updatedFriendList
+                }
+            );
         }
     },
 });

@@ -1,5 +1,5 @@
 <script>
-import {mapMutations} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 
 export default {
   name: "FriendComponent",
@@ -7,10 +7,14 @@ export default {
     friend: {}
   },
   methods: {
-    friendClicked () {
+    friendClicked() {
       this.setReceiver(this.friend);
     },
-    ...mapMutations(["setReceiver"])
+    async unfriendAction() {
+      await this.unfriend(this.friend);
+    },
+    ...mapMutations(["setReceiver"]),
+    ...mapActions(["unfriend"])
   }
 }
 </script>
@@ -24,8 +28,13 @@ export default {
     <v-list-item-content>
       <v-list-item-title v-html="friend.username"></v-list-item-title>
       <v-list-item-subtitle v-html="friend.email"></v-list-item-subtitle>
-      <!--TODO add unfriend button-->
     </v-list-item-content>
+
+    <v-list-item-action>
+      <v-btn icon @click.stop="unfriendAction">
+        <v-icon color="grey lighten-1">mdi-close</v-icon>
+      </v-btn>
+    </v-list-item-action>
   </v-list-item>
 </template>
 
