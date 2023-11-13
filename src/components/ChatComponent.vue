@@ -3,19 +3,28 @@
     <AppBar/>
 
     <v-main class="fill-height main-content">
-      <div class="messages-area px-2 py-2" ref="message-list">
-        <message-component v-for="message in messages" :key="message.randId" :message="message"/>
+      <div class="left-sidebar pt-16">
+        <div class="friends-list pa-4" style="background-color: grey">
+          <p v-for="n in 100" :key="n">
+            Sidebar item {{n}}
+          </p>
+        </div>
       </div>
-      <div class="send-box-area d-flex align-center">
-        <v-text-field
-            v-model="message"
-            append-icon="mdi-send"
-            append-outer-icon="mdi-attachment"
-            text
-            class="mx-3"
-            placeholder="Write message here..."
-            @click:append="sendMessage"
-            @click:append-outer="sendAttachment"/>
+      <div class="char-area">
+        <div class="messages-area pb-2 pt-16 py-2" ref="message-list">
+          <message-component v-for="message in messages" :key="message.randId" :message="message"/>
+        </div>
+        <div class="send-box-area d-flex align-center">
+          <v-text-field
+              v-model="message"
+              append-icon="mdi-send"
+              append-outer-icon="mdi-attachment"
+              text
+              class="mx-3"
+              placeholder="Write message here..."
+              @click:append="sendMessage"
+              @click:append-outer="sendAttachment"/>
+        </div>
       </div>
     </v-main>
   </div>
@@ -99,23 +108,40 @@ export default {
   $sendBoxHeight: 64px;
   position: relative;
 
-  .messages-area {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    height: calc(100% - #{$sendBoxHeight});
-    padding-top: $sendBoxHeight;
+  .left-sidebar {
+    width: 33%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-right: 1px solid black;
+
+    .friends-list {
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
   }
 
-  .send-box-area {
-    height: $sendBoxHeight;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    box-shadow: 0 -3px 3px 0 rgba(0, 0, 0, 0.1);
-    background-color: white;
+  .char-area {
+    width: 67%;
+    margin-left: 33%;
+
+    .messages-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      height: calc(100% - #{$sendBoxHeight});
+    }
+
+    .send-box-area {
+      height: $sendBoxHeight;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      box-shadow: 0 -3px 3px 0 rgba(0, 0, 0, 0.1);
+      background-color: white;
+    }
   }
 }
 </style>
