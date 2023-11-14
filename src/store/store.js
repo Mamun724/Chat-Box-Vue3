@@ -113,7 +113,7 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async registerUserAsync({commit, state}, user) {
+        async registerUser({commit, state}, user) {
             await delaySim(300);
             commit("registerUser", user);
 
@@ -133,7 +133,7 @@ export default new Vuex.Store({
                 }
             }
         },
-        async loginUserAsync({commit, getters}, loginData) {
+        async loginUser({commit, getters}, loginData) {
             await delaySim(300);
             const user = getters.findUser(loginData.email);
             if (!user || user.password !== loginData.password) {
@@ -144,11 +144,12 @@ export default new Vuex.Store({
 
             return user;
         },
-        logoutUser({commit}) {
+        async logoutUser({commit}) {
+            await delaySim(300);
             commit("setAuthUser", null);
             commit("setReceiver", null);
         },
-        async sendMessageAsync({commit}, message) {
+        async sendMessage({commit}, message) {
             await delaySim(300);
             commit("addMessage", message);
         },

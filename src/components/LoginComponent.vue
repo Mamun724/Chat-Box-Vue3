@@ -2,7 +2,7 @@
   <signup-login-layout>
     <v-card>
       <v-card-title class="pb-0">Login</v-card-title>
-      <v-form @submit.prevent="loginUser" v-model="validForm">
+      <v-form @submit.prevent="login" v-model="validForm">
         <v-container class="px-4">
           <v-alert v-if="!validForm && submittedOnce" type="error" outlined dense>
             Form is not valid.
@@ -70,13 +70,13 @@ export default {
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
     },
-    async loginUser() {
+    async login() {
       this.submittedOnce = true;
       if (!this.validForm) {
         return;
       }
 
-      const loggedInUser = await this.loginUserAsync(this.loginData);
+      const loggedInUser = await this.loginUser(this.loginData);
       if (!loggedInUser) {
         this.authFailed = true;
         return;
@@ -84,7 +84,7 @@ export default {
 
       await this.$router.push({path: "/"});
     },
-    ...mapActions(["loginUserAsync"])
+    ...mapActions(["loginUser"])
   },
   created() {
     this.errorRedirect = !!this.$route.query["errorRedirect"];

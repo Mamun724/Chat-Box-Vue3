@@ -45,7 +45,7 @@ export default {
         randId: Math.random()
       };
 
-      await this.sendMessageAsync(msg);
+      await this.sendMessage(msg);
       this.messageSent();
     },
     messageSent() {
@@ -55,7 +55,7 @@ export default {
       let messageListContainer = this.$refs["message-list"];
       messageListContainer?.lastElementChild?.scrollIntoView({behavior: "smooth"});
     },
-    ...mapActions(["sendMessageAsync"])
+    ...mapActions(["sendMessage"])
   },
   computed: {
     ...mapGetters({

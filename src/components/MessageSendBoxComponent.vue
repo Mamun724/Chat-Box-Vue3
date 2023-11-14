@@ -8,8 +8,8 @@
         class="mx-3"
         placeholder="Write message here..."
         :disabled="!receiver"
-        @keyup.enter="sendMessage"
-        @click:append="sendMessage"
+        @keyup.enter="sendMessageHandler"
+        @click:append="sendMessageHandler"
         @click:append-outer="sendAttachment"/>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     };
   },
   methods: {
-    async sendMessage() {
+    async sendMessageHandler() {
       if (!this.message) {
         return;
       }
@@ -38,14 +38,14 @@ export default {
         randId: Math.random()
       };
 
-      await this.sendMessageAsync(msg);
+      await this.sendMessage(msg);
       this.message = '';
       this.$emit("messageSent");
     },
     sendAttachment() {
       console.log('send attachment');
     },
-    ...mapActions(["sendMessageAsync"])
+    ...mapActions(["sendMessage"])
   },
   computed: {
     ...mapGetters({

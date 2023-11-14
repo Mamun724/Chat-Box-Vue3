@@ -108,10 +108,10 @@ export default {
         confirmedPassword: undefined,
       };
 
-      await this.registerUserAsync(userData);
+      await this.registerUser(userData);
       await this.$router.push({path: "/login"});
     },
-    ...mapActions(["registerUserAsync"])
+    ...mapActions(["registerUser"])
   },
   computed: {
     ...mapGetters(["findUser"])
