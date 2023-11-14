@@ -1,50 +1,3 @@
-<script>
-export default {
-  name: "ConfirmationDialogComponent",
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    showCancelBtn: {
-      type: Boolean,
-      default: true,
-    },
-    confirmBtnText: {
-      type: String,
-      default: "Yes",
-    },
-    cancelBtnText: {
-      type: String,
-      default: "No",
-    },
-    activatorButtonIcon: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      showDialog: false,
-    };
-  },
-  methods: {
-    confirm(event) {
-      this.showDialog = false;
-      this.$emit('confirmed', event);
-    },
-    cancel(event) {
-      this.showDialog = false;
-      this.$emit('canceled', event);
-    }
-  }
-}
-</script>
-
 <template>
   <v-dialog
       v-model="showDialog"
@@ -94,6 +47,53 @@ export default {
     </template>
   </v-dialog>
 </template>
+
+<script>
+export default {
+  name: "ConfirmationDialogComponent",
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    showCancelBtn: {
+      type: Boolean,
+      default: true,
+    },
+    confirmBtnText: {
+      type: String,
+      default: "Yes",
+    },
+    cancelBtnText: {
+      type: String,
+      default: "No",
+    },
+    activatorButtonIcon: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
+  methods: {
+    confirm(event) {
+      this.showDialog = false;
+      this.$emit('confirmed', event);
+    },
+    cancel(event) {
+      this.showDialog = false;
+      this.$emit('canceled', event);
+    }
+  }
+}
+</script>
 
 <style scoped>
 

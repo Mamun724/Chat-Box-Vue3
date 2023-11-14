@@ -1,3 +1,19 @@
+<template>
+  <div class="send-box-area d-flex align-center">
+    <v-text-field
+        v-model="message"
+        append-icon="mdi-send"
+        append-outer-icon="mdi-attachment"
+        text
+        class="mx-3"
+        placeholder="Write message here..."
+        :disabled="!receiver"
+        @keyup.enter="sendMessage"
+        @click:append="sendMessage"
+        @click:append-outer="sendAttachment"/>
+  </div>
+</template>
+
 <script>
 import {mapActions, mapGetters} from "vuex";
 
@@ -39,22 +55,6 @@ export default {
   },
 }
 </script>
-
-<template>
-  <div class="send-box-area d-flex align-center">
-    <v-text-field
-        v-model="message"
-        append-icon="mdi-send"
-        append-outer-icon="mdi-attachment"
-        text
-        class="mx-3"
-        placeholder="Write message here..."
-        :disabled="!receiver"
-        @keyup.enter="sendMessage"
-        @click:append="sendMessage"
-        @click:append-outer="sendAttachment"/>
-  </div>
-</template>
 
 <style scoped lang="scss">
 $sendBoxHeight: 64px;

@@ -1,3 +1,15 @@
+<template>
+  <div class="friends-list py-2">
+    <template v-for="friend of friendUsers">
+      <FriendComponent
+          :class="{selected: friend.username === receiver?.username}"
+          :friend="friend"
+          :key="friend.username"/>
+      <v-divider :key="friend.username + friend.username"/>
+    </template>
+  </div>
+</template>
+
 <script>
 import FriendComponent from "@/components/FriendComponent.vue";
 import {mapGetters} from "vuex";
@@ -19,18 +31,6 @@ export default {
   }
 }
 </script>
-
-<template>
-  <div class="friends-list py-2">
-    <template v-for="friend of friendUsers">
-      <FriendComponent
-          :class="{selected: friend.username === receiver?.username}"
-          :friend="friend"
-          :key="friend.username"/>
-      <v-divider :key="friend.username + friend.username"/>
-    </template>
-  </div>
-</template>
 
 <style scoped lang="scss">
 $appBarHeight: 64px;

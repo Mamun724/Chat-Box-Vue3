@@ -1,3 +1,17 @@
+<template>
+  <div class="chat-area">
+    <div class="message-list-wrapper pl-2">
+      <v-alert v-if="!receiver" class="text-center mr-2" outlined type="info">
+        Please select friend from left sidebar to start Chat.
+      </v-alert>
+      <div v-else class="message-list py-2" ref="message-list">
+        <message-component v-for="message in messages" :key="message.randId" :message="message"/>
+      </div>
+    </div>
+    <message-send-box-component @messageSent="messageSent"/>
+  </div>
+</template>
+
 <script>
 import MessageComponent from "@/components/MessageComponent.vue";
 import {mapActions, mapGetters} from "vuex";
@@ -65,20 +79,6 @@ export default {
   }
 }
 </script>
-
-<template>
-  <div class="chat-area">
-    <div class="message-list-wrapper pl-2">
-      <v-alert v-if="!receiver" class="text-center mr-2" outlined type="info">
-        Please select friend from left sidebar to start Chat.
-      </v-alert>
-      <div v-else class="message-list py-2" ref="message-list">
-        <message-component v-for="message in messages" :key="message.randId" :message="message"/>
-      </div>
-    </div>
-    <message-send-box-component @messageSent="messageSent"/>
-  </div>
-</template>
 
 <style scoped lang="scss">
 $sendBoxHeight: 64px;
