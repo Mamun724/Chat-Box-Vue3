@@ -1,11 +1,11 @@
 <template>
   <div class="friends-list py-2">
-    <template v-for="friend of friendUsers">
+    <!-- eslint-disable-next-line -->
+    <template v-for="friend of friendUsers" :key="friend.username">
       <FriendComponent
           :class="{selected: friend.username === receiver?.username}"
-          :friend="friend"
-          :key="friend.username"/>
-      <v-divider :key="friend.username + friend.username"/>
+          :friend="friend"/>
+      <v-divider/>
     </template>
   </div>
 </template>
