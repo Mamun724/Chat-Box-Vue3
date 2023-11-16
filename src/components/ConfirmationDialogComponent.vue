@@ -2,7 +2,7 @@
   <v-dialog
       v-model="showDialog"
       width="500">
-    <template v-slot:activator="{on, attrs}">
+    <template v-slot:activator="{props}">
       <v-btn
           :icon="activatorButtonIcon"
           variant="text"
