@@ -5,8 +5,8 @@
     <template v-slot:activator="{on, attrs}">
       <v-btn
           :icon="activatorButtonIcon"
-          v-bind="attrs"
-          v-on="on">
+          variant="text"
+          v-bind="props">
         <slot name="activatorBtnContent">
           Open Confirmation Dialog
         </slot>
@@ -30,16 +30,14 @@
           <v-btn
               v-if="showCancelBtn"
               color="secondary"
-              text
-              @click="cancel"
-          >
+              variant="text"
+              @click="cancel">
             {{ cancelBtnText }}
           </v-btn>
           <v-btn
               color="primary"
-              text
-              @click="confirm"
-          >
+              variant="text"
+              @click="confirm">
             {{ confirmBtnText }}
           </v-btn>
         </v-card-actions>
