@@ -1,15 +1,15 @@
 <template>
-  <v-list-item @click="friendClicked">
-    <v-list-item-avatar>
-      <v-img :src="friend.profilePicture"></v-img>
-    </v-list-item-avatar>
+  <v-list-item
+      @click="friendClicked"
+      :title="friend.fullName"
+      :subtitle="friend.username">
+    <template v-slot:prepend>
+      <v-avatar>
+        <v-img :src="friend.profilePicture"></v-img>
+      </v-avatar>
+    </template>
 
-    <v-list-item-content>
-      <v-list-item-title v-html="friend.username"></v-list-item-title>
-      <v-list-item-subtitle v-html="friend.email"></v-list-item-subtitle>
-    </v-list-item-content>
-
-    <v-list-item-action>
+    <template v-slot:append>
       <ConfirmationDialogComponent
           title="Are you sure?"
           :message="`Are you sure to unfriend '${friend.username}'?`"
@@ -19,7 +19,7 @@
           <v-icon color="grey lighten-1">mdi-close</v-icon>
         </template>
       </ConfirmationDialogComponent>
-    </v-list-item-action>
+    </template>
   </v-list-item>
 </template>
 
