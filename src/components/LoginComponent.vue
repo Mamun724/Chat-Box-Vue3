@@ -21,11 +21,11 @@
               :rules="[rules.required, rules.minLength, rules.email, rules.maxLength]"/>
           <v-text-field
               v-model="loginData.password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password*"
               :type="showPassword ? 'text' : 'password'"
               :rules="[rules.required, rules.minimumPasswordLength, rules.maxLength]"
-              @click:append="togglePasswordVisibility"/>
+              @click:append-inner="togglePasswordVisibility"/>
           <v-row justify="end" align="center" class="px-3 pb-3 pt-1">
             <span>Not registered? <router-link to="/signup">Sign Up</router-link></span>
             <v-btn class="ml-auto" color="primary" type="submit">Login</v-btn>

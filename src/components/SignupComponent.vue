@@ -25,19 +25,20 @@
               :rules="[rules.required, rules.minLength, rules.email, rules.emailUnique, rules.maxLength]"/>
           <v-text-field
               v-model="signUpData.password"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               label="Password*"
               :type="showPassword ? 'text' : 'password'"
               :rules="[rules.required, rules.minimumPasswordLength, rules.maxLength]"
-              @click:append="togglePasswordVisibility"/>
+              @click:append-inner="togglePasswordVisibility"/>
           <v-text-field
               v-model="signUpData.confirmedPassword"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               label="Confirm Password*"
               :type="showPassword ? 'text' : 'password'"
               :rules="[rules.required, rules.minimumPasswordLength, rules.maxLength]"
-              @click:append="togglePasswordVisibility"/>
+              @click:append-inner="togglePasswordVisibility"/>
           <v-file-input
+              label="Profile Picture"
               v-model="signUpData.profilePicture" placeholder="Profile Picture"/>
           <v-row justify="end" align="center" class="px-3 pb-3 pt-1">
             <span>Already registered? <router-link to="/login">Login</router-link></span>

@@ -2,15 +2,15 @@
   <div class="send-box-area d-flex align-center">
     <v-text-field
         v-model="message"
-        append-icon="mdi-send"
-        append-outer-icon="mdi-attachment"
+        append-inner-icon="mdi-send"
+        append-icon="mdi-attachment"
         text
         class="mx-3"
         placeholder="Write message here..."
         :disabled="!receiver"
         @keyup.enter="sendMessageHandler"
-        @click:append="sendMessageHandler"
-        @click:append-outer="sendAttachment"/>
+        @click:append-inner="sendMessageHandler"
+        @click:append="sendAttachment"/>
   </div>
 </template>
 
