@@ -96,7 +96,7 @@ $appBarHeight: 64px;
     height: calc(100% - #{$sendBoxHeight});
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
 
     .message-list {
       max-height: 100%;

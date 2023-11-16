@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-container fluid class="fill-height">
+    <v-container :fluid="true" class="fill-height">
       <v-row align-content="center">
         <v-spacer/>
         <v-col cols="8" md="4"><slot></slot></v-col>
