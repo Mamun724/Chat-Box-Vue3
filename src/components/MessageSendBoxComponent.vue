@@ -4,8 +4,8 @@
         v-model="message"
         append-inner-icon="mdi-send"
         append-icon="mdi-attachment"
-        text
         class="mx-3"
+        variant="underlined"
         placeholder="Write message here..."
         :disabled="!receiver"
         @keyup.enter="sendMessageHandler"

@@ -6,8 +6,10 @@
       <div class="left-sidebar pt-16">
         <friend-list-component/>
       </div>
-      <router-view class="content-area">
-        <chat-area-component/>
+      <router-view>
+        <div class="content-area">
+          <chat-area-component/>
+        </div>
       </router-view>
     </v-main>
   </div>

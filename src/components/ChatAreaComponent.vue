@@ -3,8 +3,9 @@
     <div class="message-list-wrapper pl-2">
       <v-alert
           v-if="!receiver"
-          class="text-center mr-2"
+          class="text-center mr-2 flex-0-0 mb-3"
           variant="outlined"
+          density="compact"
           type="info">
         Please select friend from left sidebar to start Chat.
       </v-alert>
