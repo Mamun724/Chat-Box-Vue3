@@ -10,8 +10,5 @@
   </v-main>
 </template>
 
-<script>
-export default {
-  name: "SignupLoginPageLayout",
-};
+<script setup>
 </script>

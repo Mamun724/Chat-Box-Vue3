@@ -14,45 +14,38 @@
   </div>
 </template>
 
-<script>
-import {mapActions, mapGetters} from "vuex";
+<script setup>
+import {useStore} from "vuex";
+import {computed, ref} from "vue";
 
-export default {
-  name: "MessageSendBoxComponent",
-  data() {
-    return {
-      message: ''
-    };
-  },
-  methods: {
-    async sendMessageHandler() {
-      if (!this.message) {
-        return;
-      }
+const store = useStore();
+const emit = defineEmits(["messageSent"]);
 
-      const msg = {
-        content: this.message,
-        sender: this.authUser.username,
-        receiver: this.receiver.username,
-        timestamp: new Date(),
-        randId: Math.random()
-      };
+const message = ref("");
 
-      await this.sendMessage(msg);
-      this.message = '';
-      this.$emit("messageSent");
-    },
-    sendAttachment() {
-      console.log('send attachment');
-    },
-    ...mapActions(["sendMessage"])
-  },
-  computed: {
-    ...mapGetters({
-      authUser: "getAuthenticatedUser",
-      receiver: "getReceiver"
-    })
-  },
+const authUser = computed(() => store.state.authenticatedUser);
+const receiver = computed(() => store.state.receiverUser);
+
+async function sendMessageHandler() {
+  if (!message.value) {
+    return;
+  }
+
+  const msg = {
+    content: message.value,
+    sender: authUser.value.username,
+    receiver: receiver.value.username,
+    timestamp: new Date(),
+    randId: Math.random()
+  };
+
+  await store.dispatch("sendMessage", msg);
+  message.value = "";
+  emit("messageSent");
+}
+
+function sendAttachment() {
+  console.log('send attachment');
 }
 </script>
 

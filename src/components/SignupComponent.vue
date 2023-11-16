@@ -60,72 +60,64 @@
   </signup-login-layout>
 </template>
 
-<script>
+<script setup>
 import SignupLoginLayout from './SignupLoginLayout.vue';
 import {constants} from "@/constants";
-import {mapActions, mapGetters} from "vuex";
+import {useStore} from "vuex";
+import {ref} from "vue";
+import {useRouter} from "vue-router";
 
-export default {
-  name: "SignupComponent",
-  components: {
-    'signup-login-layout': SignupLoginLayout
-  },
-  data() {
-    return {
-      validForm: false,
-      showPassword: false,
-      passwordMismatch: false,
-      submittedOnce: false,
-      signUpData: {
-        fullName: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmedPassword: '',
-        profilePicture: null
-      },
-      rules: {
-        required: value => !!value || 'Required.',
-        minimumPasswordLength: value => value.length >= 6 || "Password should be at least 6 characters.",
-        minLength: value => value.length >= 2 || "At least 2 characters required.",
-        maxLength: value => value.length <= 255 || "At most 255 characters allowed.",
-        email: value => constants.validEmailRegex.test(value) || "Email is not valid.",
-        emailUnique: value => this.findUser(value) == null || "User with the email already exists."
-      }
-    };
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-    },
-    async createUser() {
-      this.submittedOnce = true;
-      if (!this.validForm) {
-        return;
-      }
+const store = useStore();
+const router = useRouter();
 
-      if (this.signUpData.password !== this.signUpData.confirmedPassword) {
-        this.passwordMismatch = true;
-        return;
-      } else {
-        this.passwordMismatch = false;
-      }
+const validForm = ref(false);
+const showPassword = ref(false);
+const passwordMismatch = ref(false);
+const submittedOnce = ref(false);
+const signUpData = ref({
+  fullName: '',
+  username: '',
+  email: '',
+  password: '',
+  confirmedPassword: '',
+  profilePicture: null
+});
 
-      const profilePicturePath = this.signUpData?.profilePicture ? "/assets/user-profile-pic.jpg" : null;
+const rules = {
+  required: value => !!value || 'Required.',
+  minimumPasswordLength: value => value.length >= 6 || "Password should be at least 6 characters.",
+  minLength: value => value.length >= 2 || "At least 2 characters required.",
+  maxLength: value => value.length <= 255 || "At most 255 characters allowed.",
+  email: value => constants.validEmailRegex.test(value) || "Email is not valid.",
+  emailUnique: value => store.getters.findUser(value) == null || "User with the email already exists."
+};
 
-      const userData = {
-        ...this.signUpData,
-        profilePicture: profilePicturePath,
-        confirmedPassword: undefined,
-      };
+function togglePasswordVisibility() {
+  showPassword.value = !showPassword.value;
+}
 
-      await this.registerUser(userData);
-      await this.$router.push({path: "/login"});
-    },
-    ...mapActions(["registerUser"])
-  },
-  computed: {
-    ...mapGetters(["findUser"])
+async function createUser() {
+  submittedOnce.value = true;
+  if (!validForm.value) {
+    return;
   }
+
+  if (signUpData.value.password !== signUpData.value.confirmedPassword) {
+    passwordMismatch.value = true;
+    return;
+  } else {
+    passwordMismatch.value = false;
+  }
+
+  const profilePicturePath = signUpData.value.profilePicture ? "/assets/user-profile-pic.jpg" : null;
+
+  const userData = {
+    ...signUpData.value,
+    profilePicture: profilePicturePath,
+    confirmedPassword: undefined,
+  };
+
+  await store.dispatch("registerUser", userData);
+  await router.push({path: "/login"});
 }
 </script>

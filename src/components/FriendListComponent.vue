@@ -1,6 +1,5 @@
 <template>
   <div class="friends-list py-2">
-    <!-- eslint-disable-next-line -->
     <template v-for="friend of friendUsers" :key="friend.username">
       <FriendComponent
           :class="{selected: friend.username === receiver?.username}"
@@ -10,26 +9,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import {useStore} from "vuex";
+import {computed} from "vue";
 import FriendComponent from "@/components/FriendComponent.vue";
-import {mapGetters} from "vuex";
 
-export default {
-  name: "FriendListComponent",
-  components: {FriendComponent},
-  computed: {
-    ...mapGetters({
-      findUser: "findUser",
-      friends: "getFriends",
-      receiver: "getReceiver",
-      authUser: "getAuthenticatedUser"
-    }),
-    friendUsers () {
-      return this.friends(this.authUser.email)
-          .map(email => this.findUser(email));
-    }
-  }
-}
+const store = useStore();
+
+const authUser = computed(() => store.state.authenticatedUser);
+const receiver = computed(() => store.state.receiverUser);
+const friends = computed(() => store.getters.getFriends(authUser.value?.email));
+const friendUsers = computed(() => friends.value?.map(email => store.getters.findUser(email)));
 </script>
 
 <style scoped lang="scss">

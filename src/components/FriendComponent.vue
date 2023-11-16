@@ -23,30 +23,23 @@
   </v-list-item>
 </template>
 
-<script>
-import {mapActions, mapMutations} from "vuex";
+<script setup>
+import {useStore} from "vuex";
 import ConfirmationDialogComponent from "@/components/ConfirmationDialogComponent.vue";
 
-export default {
-  name: "FriendComponent",
-  components: {ConfirmationDialogComponent},
-  props: {
-    friend: {}
-  },
-  data() {
-    return {showDialog: false};
-  },
-  methods: {
-    friendClicked() {
-      this.setReceiver(this.friend);
-    },
-    async unfriendConfirmed(event) {
-      event.stopPropagation();
-      await this.unfriend(this.friend);
-    },
-    ...mapMutations(["setReceiver"]),
-    ...mapActions(["unfriend"])
-  }
+const store = useStore();
+
+const props = defineProps({
+  friend: {}
+});
+
+function friendClicked() {
+  store.commit("setReceiver", props.friend);
+}
+
+async function unfriendConfirmed(event) {
+  event.stopPropagation();
+  await store.dispatch("unfriend", props.friend);
 }
 </script>
 

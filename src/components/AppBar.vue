@@ -20,17 +20,11 @@
     <logout-component/>
   </v-app-bar>
 </template>
-<script>
+<script setup>
 import LogoutComponent from "@/components/LogoutComponent.vue"
-import {mapGetters} from "vuex";
+import {useStore} from "vuex";
+import {computed} from "vue";
 
-export default {
-  name: 'AppBar',
-  components: {LogoutComponent},
-  computed: {
-    ...mapGetters({
-      receiver: "getReceiver"
-    })
-  }
-}
+const store = useStore();
+const receiver = computed(() => store.state.receiverUser);
 </script>

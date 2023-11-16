@@ -46,50 +46,47 @@
   </v-dialog>
 </template>
 
-<script>
-export default {
-  name: "ConfirmationDialogComponent",
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    showCancelBtn: {
-      type: Boolean,
-      default: true,
-    },
-    confirmBtnText: {
-      type: String,
-      default: "Yes",
-    },
-    cancelBtnText: {
-      type: String,
-      default: "No",
-    },
-    activatorButtonIcon: {
-      type: Boolean,
-      default: false
-    }
+<script setup>
+import {ref} from "vue";
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  data() {
-    return {
-      showDialog: false,
-    };
+  message: {
+    type: String,
+    required: true,
   },
-  methods: {
-    confirm(event) {
-      this.showDialog = false;
-      this.$emit('confirmed', event);
-    },
-    cancel(event) {
-      this.showDialog = false;
-      this.$emit('canceled', event);
-    }
+  showCancelBtn: {
+    type: Boolean,
+    default: true,
+  },
+  confirmBtnText: {
+    type: String,
+    default: "Yes",
+  },
+  cancelBtnText: {
+    type: String,
+    default: "No",
+  },
+  activatorButtonIcon: {
+    type: Boolean,
+    default: false
   }
+});
+const emit = defineEmits(["confirmed", "canceled"]);
+
+const showDialog = ref(false);
+
+function confirm(event) {
+  showDialog.value = false;
+  emit('confirmed', event);
+}
+
+function cancel(event) {
+  showDialog.value = false;
+  emit('canceled', event);
 }
 </script>
 

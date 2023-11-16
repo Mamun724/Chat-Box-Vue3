@@ -28,24 +28,21 @@
   </v-container>
 </template>
 
-<script>
-import {mapGetters} from "vuex";
+<script setup>
+import {useStore} from "vuex";
+import {computed} from "vue";
 
-export default {
-  name: "MessageComponent",
-  props: {
-    message: {}
-  },
-  computed: {
-    ...mapGetters({
-      sender: "getAuthenticatedUser",
-      receiver: "getReceiver"
-    }),
-    messageTime() {
-      return this.message.timestamp.toString();
-    }
+const store = useStore();
+const props = defineProps({
+  message: {
+    type: Object,
+    required: true
   }
-}
+});
+
+const sender = computed(() => store.state.authenticatedUser);
+const receiver = computed(() => store.state.receiverUser);
+const messageTime = computed(() => props.message.timestamp.toString());
 </script>
 
 <style scoped>

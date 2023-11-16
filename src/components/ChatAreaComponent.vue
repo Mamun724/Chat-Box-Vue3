@@ -9,79 +9,63 @@
           type="info">
         Please select friend from left sidebar to start Chat.
       </v-alert>
-      <div v-else class="message-list py-2" ref="message-list">
+      <div v-else class="message-list py-2" ref="messageListContainer">
         <message-component v-for="message in messages" :key="message.randId" :message="message"/>
       </div>
     </div>
-    <message-send-box-component @messageSent="messageSent"/>
+    <message-send-box-component @messageSent="moveToBottom"/>
   </div>
 </template>
 
-<script>
+<script setup>
 import MessageComponent from "@/components/MessageComponent.vue";
-import {mapActions, mapGetters} from "vuex";
+import {useStore} from "vuex";
 import MessageSendBoxComponent from "@/components/MessageSendBoxComponent.vue";
+import {computed, nextTick, onBeforeUnmount, ref} from "vue";
 
-export default {
-  name: "ChatAreaComponent",
-  components: {MessageSendBoxComponent, MessageComponent},
-  data() {
-    return {
-      intervalId: null
-    };
-  },
-  created() {
-    this.intervalId = setInterval(() => this.simulateReceiver(), 5000);
-  },
-  beforeUnmount() {
-    clearInterval(this.intervalId);
-  },
-  methods: {
-    async simulateReceiver() {
-      if (!this.receiver) {
-        return;
-      }
-      let message = `Simulating receiver message at ${new Date().toLocaleTimeString()}`;
-      const msg = {
-        content: message,
-        sender: this.receiver.username,
-        receiver: this.authUser.username,
-        timestamp: new Date(),
-        randId: Math.random()
-      };
+const intervalId = setInterval(() => simulateReceiver(), 5000);
+onBeforeUnmount(() => clearInterval(intervalId));
 
-      await this.sendMessage(msg);
-      this.messageSent();
-    },
-    messageSent() {
-      this.$nextTick(() => this.scrollToEnd());
-    },
-    scrollToEnd() {
-      let messageListContainer = this.$refs["message-list"];
-      messageListContainer?.lastElementChild?.scrollIntoView({behavior: "smooth"});
-    },
-    ...mapActions(["sendMessage"])
-  },
-  computed: {
-    ...mapGetters({
-      getMessages: "getMessages",
-      authUser: "getAuthenticatedUser",
-      receiver: "getReceiver"
-    }),
-    messages() {
-      return this.getMessages.filter(
-          message =>
-              (
-                  message.receiver === this.receiver.username &&
-                  message.sender === this.authUser.username
-              ) ||
-              (
-                  message.sender === this.receiver.username &&
-                  message.receiver === this.authUser.username
-              )
-      );
-    }
+moveToBottom();
+
+const store = useStore();
+const authUser = computed(() => store.state.authenticatedUser);
+const receiver = computed(() => store.state.receiverUser);
+const messages = computed(() => store.state.messages.filter(
+    message =>
+        (
+            message.receiver === receiver.value.username &&
+            message.sender === authUser.value.username
+        ) ||
+        (
+            message.sender === receiver.value.username &&
+            message.receiver === authUser.value.username
+        )
+));
+
+async function simulateReceiver() {
+  if (!receiver.value) {
+    return;
   }
+
+  let message = `Simulating receiver message at ${new Date().toLocaleTimeString()}`;
+  const msg = {
+    content: message,
+    sender: receiver.value.username,
+    receiver: authUser.value.username,
+    timestamp: new Date(),
+    randId: Math.random()
+  };
+
+  await store.dispatch("sendMessage", msg);
+  moveToBottom();
+}
+
+const messageListContainer = ref(null);
+
+function moveToBottom() {
+  nextTick(() =>
+      messageListContainer.value?.lastElementChild?.scrollIntoView({behavior: "smooth"}));
 }
 </script>
 

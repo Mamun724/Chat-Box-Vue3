@@ -15,19 +15,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import AppBar from "@/components/AppBar.vue";
-import FriendListComponent from "@/components/FriendListComponent.vue";
 import ChatAreaComponent from "@/components/ChatAreaComponent.vue";
-
-export default {
-  name: "ChatComponent",
-  components: {
-    ChatAreaComponent,
-    FriendListComponent,
-    AppBar
-  },
-}
+import FriendListComponent from "@/components/FriendListComponent.vue";
 </script>
 
 <style scoped lang="scss">

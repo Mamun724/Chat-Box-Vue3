@@ -5,17 +5,15 @@
   </v-btn>
 </template>
 
-<script>
-import {mapActions} from "vuex";
+<script setup>
+import {useStore} from "vuex";
+import {useRouter} from "vue-router";
 
-export default {
-  name: "LogoutComponent",
-  methods: {
-    logout() {
-      this.logoutUser();
-      this.$router.push("/login");
-    },
-    ...mapActions(["logoutUser"])
-  }
+const store = useStore();
+const router = useRouter();
+
+async function logout() {
+  await store.dispatch("logoutUser");
+  await router.push("/login");
 }
 </script>
