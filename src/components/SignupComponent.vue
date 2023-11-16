@@ -4,10 +4,20 @@
       <v-card-title class="pb-0">Sign Up</v-card-title>
       <v-form @submit.prevent="createUser" v-model="validForm">
         <v-container class="px-4">
-          <v-alert v-if="!validForm && submittedOnce" type="error" outlined dense>
+          <v-alert
+              v-if="!validForm && submittedOnce"
+              type="error"
+              variant="outlined"
+              density="compact"
+              class="mb-2">
             Form is not valid.
           </v-alert>
-          <v-alert v-if="passwordMismatch" type="error" outlined dense>
+          <v-alert
+              v-if="passwordMismatch"
+              type="error"
+              variant="outlined"
+              density="compact"
+              class="mb-2">
             Passwords don't match.
           </v-alert>
           <v-text-field

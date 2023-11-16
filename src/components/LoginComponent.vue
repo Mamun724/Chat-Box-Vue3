@@ -4,13 +4,28 @@
       <v-card-title class="pb-0">Login</v-card-title>
       <v-form @submit.prevent="login" v-model="validForm">
         <v-container class="px-4">
-          <v-alert v-if="!validForm && submittedOnce" type="error" outlined dense>
+          <v-alert
+              v-if="!validForm && submittedOnce"
+              type="error"
+              variant="outlined"
+              density="compact"
+              class="mb-2">
             Form is not valid.
           </v-alert>
-          <v-alert v-if="authFailed" type="error" outlined dense>
+          <v-alert
+              v-if="authFailed"
+              type="error"
+              variant="outlined"
+              density="compact"
+              class="mb-2">
             Email or Password is not correct.
           </v-alert>
-          <v-alert v-if="errorRedirect" type="warning" outlined dense>
+          <v-alert
+              v-if="errorRedirect"
+              type="warning"
+              variant="outlined"
+              density="compact"
+              class="mb-2">
             Please login first to access the route.
           </v-alert>
 
