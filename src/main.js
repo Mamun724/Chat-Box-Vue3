@@ -8,7 +8,6 @@ import router from "./router/router";
 // for certain features
 configureCompat({
   MODE: 3,
-  OPTIONS_BEFORE_DESTROY: true,
   ATTR_FALSE_VALUE: true
 });
 

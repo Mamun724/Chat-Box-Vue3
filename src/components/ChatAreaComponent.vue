@@ -33,7 +33,7 @@ export default {
   created() {
     this.intervalId = setInterval(() => this.simulateReceiver(), 5000);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.intervalId);
   },
   methods: {
