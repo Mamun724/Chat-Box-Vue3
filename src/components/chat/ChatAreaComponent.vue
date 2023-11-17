@@ -18,9 +18,9 @@
 </template>
 
 <script setup>
-import MessageComponent from "@/components/MessageComponent.vue";
+import MessageComponent from "@/components/chat/MessageComponent.vue";
 import {useStore} from "vuex";
-import MessageSendBoxComponent from "@/components/MessageSendBoxComponent.vue";
+import MessageSendBoxComponent from "@/components/chat/MessageSendBoxComponent.vue";
 import {computed, nextTick, onBeforeUnmount, ref} from "vue";
 
 const intervalId = setInterval(() => simulateReceiver(), 5000);

@@ -17,8 +17,8 @@
 
 <script setup>
 import AppBar from "@/components/AppBar.vue";
-import ChatAreaComponent from "@/components/ChatAreaComponent.vue";
-import FriendListComponent from "@/components/FriendListComponent.vue";
+import ChatAreaComponent from "@/components/chat/ChatAreaComponent.vue";
+import FriendListComponent from "@/components/chat/FriendListComponent.vue";
 </script>
 
 <style scoped lang="scss">
