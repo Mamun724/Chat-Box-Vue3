@@ -8,18 +8,12 @@ export default defineConfig({
     resolve: {
         alias: {
             "@": fileURLToPath(new URL('./src', import.meta.url)),
-            vue: '@vue/compat'
         },
     },
     plugins: [
         vue({
             template: {
-                transformAssetUrls,
-                compilerOptions: {
-                    compatConfig: {
-                        mode: 3
-                    }
-                }
+                transformAssetUrls
             }
         }),
         vuetify({
