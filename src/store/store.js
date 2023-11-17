@@ -1,7 +1,9 @@
 import {createStore} from "vuex";
 import {delaySim} from "./utils";
+import {constants} from "@/constants";
 
 export default createStore({
+    devtools: true,
     state: {
         registeredUsers: [
             {
@@ -49,7 +51,9 @@ export default createStore({
             "user4@email.com": ["user3@email.com", "user5@email.com"],
             "user5@email.com": ["user3@email.com", "user2@email.com", "user1@email.com", "user4@email.com"],
         },
-        messages: []
+        messages: [],
+        boardSize: 3,
+        gameStates: new Map()
     },
     getters: {
         findUser(state) {
@@ -70,6 +74,17 @@ export default createStore({
         getFriends(state) {
             return (userEmail) =>
                 state.friendsGraph[userEmail];
+        },
+        getLatestGameState(state) {
+            return (opponentEmail) => {
+                const gameStates = state.gameStates.get(opponentEmail);
+                const lastIndex = gameStates.length - 1;
+                if (lastIndex < 0) {
+                    throw new Error("Game state is not initialized!");
+                }
+
+                return gameStates[lastIndex];
+            }
         }
     },
     mutations: {
@@ -107,6 +122,23 @@ export default createStore({
                 state.friendsGraph[userEmail] = state.friendsGraph[userEmail].filter(email => email !== friendEmail);
                 state.friendsGraph[friendEmail] = state.friendsGraph[friendEmail].filter(email => email !== userEmail);
             }
+        },
+        initGame(state, opponentEmail) {
+            const boardSize = state.boardSize;
+            const board = [];
+            for (let i = 0; i < boardSize * boardSize; i++) {
+                board.push("");
+            }
+            if (!state.gameStates.has(opponentEmail)) {
+                state.gameStates.set(opponentEmail, [{
+                    playerTurn: constants.ownSymbol,
+                    board
+                }]);
+            }
+        },
+        addGameState(state, {opponentEmail, gameState}) {
+            const gameStates = state.gameStates.get(opponentEmail);
+            gameStates.push(gameState)
         }
     },
     actions: {
@@ -120,7 +152,7 @@ export default createStore({
             while (friendList.length < 2) {
                 let index = Math.floor(Math.random() * existingUsers.length);
                 let email = existingUsers[index];
-                if(!friendList.includes(email)) {
+                if (!friendList.includes(email)) {
                     commit("modifyFriend", {
                         userEmail: user.email,
                         friendEmail: email,
@@ -166,6 +198,10 @@ export default createStore({
             if (getters.getReceiver && getters.getReceiver.email === friend.email) {
                 commit("setReceiver", null);
             }
+        },
+        async initGame({commit, getters}, opponent) {
+            await delaySim(300);
+            commit("initGame", opponent.email);
         }
     },
 });

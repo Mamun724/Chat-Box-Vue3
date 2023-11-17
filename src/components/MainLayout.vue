@@ -7,8 +7,13 @@
         <friend-list-component/>
       </div>
       <router-view>
-        <div class="content-area">
-          <chat-area-component/>
+        <div class="content-area d-md-flex">
+          <div class="chat-box v-col-md-6 pa-0">
+            <chat-area-component/>
+          </div>
+          <div class="v-col-md-6 pa-0">
+            <game-area-component/>
+          </div>
         </div>
       </router-view>
     </v-main>
@@ -19,11 +24,12 @@
 import AppBar from "@/components/AppBar.vue";
 import ChatAreaComponent from "@/components/chat/ChatAreaComponent.vue";
 import FriendListComponent from "@/components/chat/FriendListComponent.vue";
+import GameAreaComponent from "@/components/tic-tac-toe/GameAreaComponent.vue";
 </script>
 
 <style scoped lang="scss">
 .main-content {
-  $leftSideBarWidth: 33%;
+  $leftSideBarWidth: 25%;
   position: relative;
 
   .left-sidebar {
@@ -36,8 +42,12 @@ import FriendListComponent from "@/components/chat/FriendListComponent.vue";
   }
 
   .content-area {
-    width: 67%;
+    width: calc(100% - #{$leftSideBarWidth});
     margin-left: $leftSideBarWidth;
+
+    .chat-box {
+      border-right: 1px solid #ddd;
+    }
   }
 }
 </style>
