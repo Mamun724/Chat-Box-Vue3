@@ -1,5 +1,5 @@
 <template>
-  <div class="game-area text-center fill-height">
+  <div class="game-area text-center overflow-y-auto">
     <GameStartCountDownComponent v-if="showStartCountDown" @counter-ended="startGame"/>
     <div v-if="!showStartCountDown">
       <v-container v-if="gameEnded">
@@ -103,8 +103,10 @@ function resetTimer() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+$appBarHeight: 64px;
 .game-area {
   width: 100%;
+  height: calc(100vh - #{$appBarHeight});
 }
 </style>

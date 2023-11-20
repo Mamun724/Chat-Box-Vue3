@@ -8,7 +8,7 @@
       </div>
       <router-view>
         <div class="content-area d-md-flex">
-          <div class="chat-box pa-0" :class="{'v-col-6': playGame, 'v-col-12': !playGame}">
+          <div class="chat-box pa-0" :class="{'v-col-md-6': playGame, 'v-col-12': !playGame}">
             <chat-area-component/>
           </div>
           <div v-if="playGame" class="v-col-md-6 pa-0">
