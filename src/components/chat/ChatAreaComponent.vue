@@ -48,7 +48,7 @@ async function simulateReceiver() {
     return;
   }
 
-  let message = `Simulating receiver message at ${new Date().toLocaleTimeString()}`;
+  let message = `[${receiver.value.fullName} -> ${authUser.value.fullName}] Simulating receiver message at ${new Date().toLocaleTimeString()}`;
   const msg = {
     content: message,
     sender: receiver.value.username,
