@@ -4,7 +4,7 @@ import NotFoundComponent from "@/components/NotFoundComponent.vue";
 import LoginComponent from "@/components/LoginComponent.vue";
 import MainLayout from "@/components/MainLayout.vue";
 import store from "@/store/store";
-import ChatAreaComponent from "@/components/ChatAreaComponent.vue";
+import ChatAreaComponent from "@/components/chat/ChatAreaComponent.vue";
 
 const routes = [
     {

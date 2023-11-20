@@ -33,8 +33,10 @@ const props = defineProps({
   friend: {}
 });
 
-function friendClicked() {
+async function friendClicked() {
   store.commit("setReceiver", props.friend);
+  store.commit("setPlayGame", false);
+  await store.dispatch("initGame", props.friend);
 }
 
 async function unfriendConfirmed(event) {

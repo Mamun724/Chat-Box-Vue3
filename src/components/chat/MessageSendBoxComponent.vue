@@ -3,14 +3,18 @@
     <v-text-field
         v-model="message"
         append-inner-icon="mdi-send"
-        append-icon="mdi-attachment"
         class="mx-3"
         variant="underlined"
         placeholder="Write message here..."
         :disabled="!receiver"
-        @keyup.enter="sendMessageHandler"
+        hide-details
         @click:append-inner="sendMessageHandler"
-        @click:append="sendAttachment"/>
+        @keyup.enter="sendMessageHandler">
+      <template v-slot:append>
+          <v-icon class="append-icons" @click="sendAttachment">mdi-attachment</v-icon>
+          <v-icon class="ml-4 append-icons" @click="playGame">mdi-gamepad-variant</v-icon>
+      </template>
+    </v-text-field>
   </div>
 </template>
 
@@ -47,12 +51,14 @@ async function sendMessageHandler() {
 function sendAttachment() {
   console.log('send attachment');
 }
+
+async function playGame() {
+  store.commit("setPlayGame", !store.state.playGame);
+}
 </script>
 
 <style scoped lang="scss">
-$sendBoxHeight: 64px;
 .send-box-area {
-  height: $sendBoxHeight;
   bottom: 0;
   left: 0;
   right: 0;

@@ -12,7 +12,7 @@
 <script setup>
 import {useStore} from "vuex";
 import {computed} from "vue";
-import FriendComponent from "@/components/FriendComponent.vue";
+import FriendComponent from "@/components/chat/FriendComponent.vue";
 
 const store = useStore();
 
