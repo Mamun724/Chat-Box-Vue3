@@ -1,26 +1,30 @@
 <template>
   <div class="state-overview text-left d-flex justify-space-between">
     <ol class="state-list">
-      <li v-for="gameState of gameStates"
-          @click="selectState(gameState)"
+      <li v-for="(gameState, index) of gameStates"
+          @click="selectState(index)"
           class="game-state-list-item px-2 py-0"
-          :class="{selected: gameState===selectedState}"
+          :class="{selected: index === selectedStateIndex}"
           title="See the game state">
         Player Was: {{ gameState.playerTurn }}
       </li>
     </ol>
-    <div v-if="selectedState" class="state-preview pa-2">
+    <div v-if="selectedStateIndex !== null" class="state-preview pa-2">
       <h4 class="overview-head"><em>Selected State Overview</em></h4>
       <div class="d-flex flex-column">
-        Player: {{ selectedState.playerTurn }}
+        Player: {{ gameStates[selectedStateIndex].playerTurn }}
         <div v-for="row in boardSize" class="d-flex justify-center">
           <div v-for="col in boardSize" class="d-inline-block cell text-center">
-            {{ selectedState.board[(row - 1) * boardSize + col - 1] }}
+            {{ gameStates[selectedStateIndex].board[(row - 1) * boardSize + col - 1] }}
           </div>
         </div>
       </div>
-      <v-btn variant="tonal" size="small" class="mt-2">
-        Reset To this state
+      <v-btn
+          variant="tonal"
+          size="small"
+          class="mt-2"
+          @click="restartAtIndex">
+        Restart from This State
       </v-btn>
     </div>
   </div>
@@ -32,15 +36,25 @@ import {useStore} from "vuex";
 
 const store = useStore();
 
+const emit = defineEmits(["stateReset"]);
+
 const boardSize = store.state.boardSize;
 const opponent = computed(() => store.state.receiverUser);
 const gameStates = computed(() => store.getters.getGameStates(opponent.value.email));
 
-const selectedState = ref(null);
+const selectedStateIndex = ref(null);
 
-function selectState(gameState) {
-  selectedState.value = gameState;
-  console.log(selectedState.value);
+function selectState(gameStateIndex) {
+  selectedStateIndex.value = gameStateIndex;
+}
+
+async function restartAtIndex() {
+  await store.dispatch("restartGameAtIndex", {
+    opponentEmail: opponent.value.email,
+    index: selectedStateIndex.value
+  });
+  selectedStateIndex.value = null;
+  emit("stateReset");
 }
 </script>
 

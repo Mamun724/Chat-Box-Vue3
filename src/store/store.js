@@ -160,6 +160,10 @@ export default createStore({
         },
         setPlayGame(state, playGame) {
             state.playGame = playGame;
+        },
+        resetGameAtIndex(state, {opponentEmail, index}) {
+            const gameStates = state.gameStates.get(opponentEmail);
+            state.gameStates.set(opponentEmail, gameStates.slice(0, index + 1));
         }
     },
     actions: {
@@ -217,12 +221,17 @@ export default createStore({
             );
 
             if (getters.getReceiver && getters.getReceiver.email === friend.email) {
+                commit("setPlayGame", false);
                 commit("setReceiver", null);
             }
         },
         async initGame({commit, getters}, opponent) {
             await delaySim(300);
             commit("initGame", opponent.email);
+        },
+        async restartGameAtIndex(context, data) {
+            await delaySim(300);
+            context.commit("resetGameAtIndex", data);
         }
     },
 });

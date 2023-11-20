@@ -11,7 +11,7 @@ import {onBeforeUnmount, ref} from "vue";
 
 const emit = defineEmits(["counterEnded"]);
 
-const counter = ref(5);
+const counter = ref(3);
 const intervalId = ref(null);
 
 onBeforeUnmount(() => {
@@ -22,7 +22,7 @@ onBeforeUnmount(() => {
 
 intervalId.value = setInterval(() => {
   counter.value = counter.value - 1;
-  if (counter.value < 0) {
+  if (counter.value <= 0) {
     emit("counterEnded");
   }
 }, 1000);

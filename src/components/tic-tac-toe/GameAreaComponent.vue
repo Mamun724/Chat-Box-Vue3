@@ -23,7 +23,7 @@
         </v-row>
       </v-container>
       <v-container>
-        <GameStateList/>
+        <GameStateList @stateReset="startGame"/>
       </v-container>
     </div>
   </div>
@@ -65,8 +65,6 @@ function turnChanged() {
 
   resetTimer();
 }
-
-watch(lastGameState, (gs) => console.log(gs));
 
 function resetTimer() {
   if (intervalId.value) {

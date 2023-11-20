@@ -30,7 +30,6 @@ import {computed} from "vue";
 
 const store = useStore();
 const playGame = computed(() => store.state.playGame);
-console.log({playGame: playGame.value});
 </script>
 
 <style scoped lang="scss">
