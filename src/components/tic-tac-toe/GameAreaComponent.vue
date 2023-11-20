@@ -37,6 +37,7 @@ import {useStore} from "vuex";
 import GameStartCountDownComponent from "@/components/tic-tac-toe/GameStartCountDownComponent.vue";
 import GameStateList from "@/components/tic-tac-toe/GameStateList.vue";
 import {winningStrategy} from "@/components/tic-tac-toe/winningStrategy";
+import {constants} from "@/constants";
 
 const store = useStore();
 
@@ -92,6 +93,9 @@ function resetTimer() {
   intervalId.value = setInterval(() => {
     timeoutRemaining.value = timeoutRemaining.value - 1;
     if (timeoutRemaining.value <= 0) {
+      winner.value = lastGameState.value.playerTurn === constants.ownSymbol
+          ? constants.opponentSymbol
+          : constants.ownSymbol;
       store.commit("setGameEnd", true);
       clearInterval(intervalId.value);
     }
