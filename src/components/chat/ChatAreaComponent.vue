@@ -70,7 +70,7 @@ function moveToBottom() {
 </script>
 
 <style scoped lang="scss">
-$sendBoxHeight: 64px;
+$sendBoxHeight: 56px;
 $appBarHeight: 64px;
 .chat-area {
   height: calc(100vh - #{$appBarHeight});
