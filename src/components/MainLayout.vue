@@ -8,10 +8,10 @@
       </div>
       <router-view>
         <div class="content-area d-md-flex">
-          <div class="chat-box v-col-md-6 pa-0">
+          <div class="chat-box pa-0" :class="{'v-col-6': playGame, 'v-col-12': !playGame}">
             <chat-area-component/>
           </div>
-          <div class="v-col-md-6 pa-0">
+          <div v-if="playGame" class="v-col-md-6 pa-0">
             <game-area-component/>
           </div>
         </div>
@@ -25,6 +25,12 @@ import AppBar from "@/components/AppBar.vue";
 import ChatAreaComponent from "@/components/chat/ChatAreaComponent.vue";
 import FriendListComponent from "@/components/chat/FriendListComponent.vue";
 import GameAreaComponent from "@/components/tic-tac-toe/GameAreaComponent.vue";
+import {useStore} from "vuex";
+import {computed} from "vue";
+
+const store = useStore();
+const playGame = computed(() => store.state.playGame);
+console.log({playGame: playGame.value});
 </script>
 
 <style scoped lang="scss">

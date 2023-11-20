@@ -2,12 +2,16 @@
   <v-btn
       variant="plain"
       class="board-tile-btn pa-0"
-      @click="played">
+      @click="played"
+      :disabled="gameEnded">
     {{ playerSymbol }}
   </v-btn>
 </template>
 
 <script setup>
+import {useStore} from "vuex";
+import {computed} from "vue";
+
 const props = defineProps({
   stateIndex: {
     type: Number,
@@ -19,6 +23,8 @@ const props = defineProps({
   }
 });
 const emit = defineEmits(['tileClicked']);
+const store = useStore();
+const gameEnded = computed(() => store.getters.IsGameEnded);
 
 function played() {
   if (!props.playerSymbol) {

@@ -42,7 +42,13 @@ export default createStore({
                 profilePicture: "/assets/user5.jpg"
             },
         ],
-        authenticatedUser: null,
+        authenticatedUser: {
+            fullName: "User 5",
+            username: "user5",
+            email: "user5@email.com",
+            password: "123456",
+            profilePicture: "/assets/user5.jpg"
+        },
         receiverUser: null,
         friendsGraph: {
             "user1@email.com": ["user2@email.com", "user3@email.com", "user5@email.com"],
@@ -53,7 +59,10 @@ export default createStore({
         },
         messages: [],
         boardSize: 3,
-        gameStates: new Map()
+        gameStates: new Map(),
+        timeoutDuration: 10,
+        gameEnded: false,
+        playGame: false
     },
     getters: {
         findUser(state) {
@@ -85,6 +94,9 @@ export default createStore({
 
                 return gameStates[lastIndex];
             }
+        },
+        IsGameEnded(state) {
+            return state.gameEnded;
         }
     },
     mutations: {
@@ -139,6 +151,12 @@ export default createStore({
         addGameState(state, {opponentEmail, gameState}) {
             const gameStates = state.gameStates.get(opponentEmail);
             gameStates.push(gameState)
+        },
+        setGameEnd(state, stop) {
+            state.gameEnded = stop;
+        },
+        setPlayGame(state, playGame) {
+            state.playGame = playGame;
         }
     },
     actions: {

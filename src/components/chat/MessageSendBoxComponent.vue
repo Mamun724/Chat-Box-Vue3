@@ -3,14 +3,14 @@
     <v-text-field
         v-model="message"
         append-inner-icon="mdi-send"
-        append-icon="mdi-attachment"
+        append-icon="mdi-gamepad-variant"
         class="mx-3"
         variant="underlined"
         placeholder="Write message here..."
         :disabled="!receiver"
         @keyup.enter="sendMessageHandler"
         @click:append-inner="sendMessageHandler"
-        @click:append="sendAttachment"/>
+        @click:append="playGame"/>
   </div>
 </template>
 
@@ -44,8 +44,8 @@ async function sendMessageHandler() {
   emit("messageSent");
 }
 
-function sendAttachment() {
-  console.log('send attachment');
+async function playGame() {
+  store.commit("setPlayGame", !store.state.playGame);
 }
 </script>
 

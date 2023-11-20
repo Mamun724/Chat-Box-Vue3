@@ -1,25 +1,17 @@
 <template>
-  <div class="game-area">
-    <v-container v-if="!opponent">
-      <v-alert variant="outlined" type="info">
-        Start Chat and play game
-      </v-alert>
-    </v-container>
-    <v-container v-else class="text-center">
-      <v-btn @click="startOrPauseGame">
-        <span v-if="!gameStarted">Start/Resume Play</span>
-        <span v-if="gameStarted">Pause Game</span>
-      </v-btn>
-      <v-container v-if="!gameStarted">
-        Start a game with {{ opponent.fullName }}!!
+  <div class="game-area text-center fill-height">
+    <GameStartCountDownComponent v-if="showStartCountDown" @counter-ended="startGame"/>
+    <div v-if="!showStartCountDown">
+      <v-container v-if="gameEnded">
+        Winner is TBD
       </v-container>
-      <v-container v-if="gameStarted">
+      <v-container>
         <v-row>
-          <v-col>
-            Player {{ lastGameState?.playerTurn }}
+          <v-col cols="6">
+            Player: {{ lastGameState?.playerTurn }}
           </v-col>
-          <v-col>
-            Timer
+          <v-col cols="6" v-if="timeoutRemaining">
+            Timer: {{ timeoutRemaining }}s
           </v-col>
         </v-row>
         <v-row>
@@ -30,37 +22,61 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-container>
+    </div>
   </div>
 </template>
 
 <script setup>
 import GameBoard from "@/components/tic-tac-toe/GameBoardComponent.vue";
-import {computed, ref, watch} from "vue";
+import {computed, onBeforeUnmount, ref, watch} from "vue";
 import {useStore} from "vuex";
+import GameStartCountDownComponent from "@/components/tic-tac-toe/GameStartCountDownComponent.vue";
 
 const store = useStore();
 
 const opponent = computed(() => store.state.receiverUser);
+const lastGameState = computed(() => store.getters.getLatestGameState(opponent.value.email));
+const gameEnded = computed(() => store.getters.IsGameEnded);
 
-const gameStarted = ref(false);
-const lastGameState = ref(null);
+const showStartCountDown = ref(true);
+const timeoutRemaining = ref(null);
+const intervalId = ref(null);
 
-watch(opponent, async (opponentNewValue) => {
-  await store.dispatch("initGame", opponentNewValue);
-  gameStarted.value = false;
-  lastGameState.value = store.getters.getLatestGameState(opponentNewValue.email);
+onBeforeUnmount(() => {
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+  }
 });
 
-function startOrPauseGame() {
-  gameStarted.value = !gameStarted.value;
+function startGame() {
+  store.commit("setGameEnd", false);
+  showStartCountDown.value = false;
+  resetTimer();
 }
 
 function turnChanged() {
   if (!opponent.value) {
     return;
   }
-  lastGameState.value = store.getters.getLatestGameState(opponent.value.email);
+
+  resetTimer();
+}
+
+watch(lastGameState, (gs) => console.log(gs));
+
+function resetTimer() {
+  if (intervalId.value) {
+    clearInterval(intervalId.value);
+  }
+
+  timeoutRemaining.value = store.state.timeoutDuration;
+  intervalId.value = setInterval(() => {
+    timeoutRemaining.value = timeoutRemaining.value - 1;
+    if (timeoutRemaining.value <= 0) {
+      store.commit("setGameEnd", true);
+      clearInterval(intervalId.value);
+    }
+  }, 1000);
 }
 </script>
 
