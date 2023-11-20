@@ -1,21 +1,24 @@
 <template>
   <div class="state-overview text-left d-flex justify-space-between">
-    <ol class="state-list">
-      <li v-for="(gameState, index) of gameStates"
-          class="game-state-list-item pl-2 py-0"
-          :class="{selected: index === selectedStateIndex}"
-          title="See the game state">
-        <span>Player: "{{ gameState.playerTurn }}"</span>
-        <v-btn
-            style="height: 30px; width: 30px"
-            class="pa-0"
-            size="small"
-            variant="plain"
-            @click="selectState(index)" icon>
-          <v-icon>mdi-restore</v-icon>
-        </v-btn>
-      </li>
-    </ol>
+    <div>
+      <h4>Game State History</h4>
+      <ol class="state-list">
+        <li v-for="(gameState, index) of gameStates"
+            class="game-state-list-item pl-2 py-0"
+            :class="{selected: index === selectedStateIndex}"
+            title="See the game state">
+          <span>Player: "{{ gameState.playerTurn }}"</span>
+          <v-btn
+              style="height: 30px; width: 30px"
+              class="pa-0"
+              size="small"
+              variant="plain"
+              @click="selectState(index)" icon>
+            <v-icon>mdi-restore</v-icon>
+          </v-btn>
+        </li>
+      </ol>
+    </div>
     <div>
       <div v-if="selectedStateIndex !== null" class="state-preview pa-2">
         <h4 class="overview-head"><em>Selected State Overview</em></h4>
@@ -85,6 +88,7 @@ async function restartAtIndex() {
     .cell {
       width: 24px;
       height: 24px;
+      min-width: 24px;
       border: 1px solid #dddddd;
     }
   }

@@ -2,11 +2,13 @@
   <div class="game-area text-center overflow-y-auto">
     <GameStartCountDownComponent v-if="showStartCountDown" @counter-ended="startGame"/>
     <div v-if="!showStartCountDown">
-      <v-container v-if="gameEnded">
-        <span v-if="winner !== 'D'">Winner is "{{ winner }}"</span>
-        <span v-else>Game Drawn</span>
-      </v-container>
       <v-container>
+        <v-row v-if="gameEnded">
+          <v-col cols="12">
+            <span v-if="winner !== 'D'">Winner is "{{ winner }}"</span>
+            <span v-else>Game Drawn</span>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col cols="6">
             Player: {{ lastGameState?.playerTurn }}
@@ -16,15 +18,17 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col>
+          <v-col cols="12">
             <GameBoard
                 :gameState="lastGameState"
                 @turnChanged="turnChanged"/>
           </v-col>
         </v-row>
-      </v-container>
-      <v-container>
-        <GameStateList @stateReset="startGame"/>
+        <v-row>
+          <v-col cols="12">
+            <GameStateList @stateReset="startGame"/>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
   </div>
