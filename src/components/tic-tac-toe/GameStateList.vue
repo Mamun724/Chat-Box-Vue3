@@ -5,15 +5,15 @@
       <ol class="state-list">
         <li v-for="(gameState, index) of gameStates"
             class="game-state-list-item pl-2 py-0"
-            :class="{selected: index === selectedStateIndex}"
-            title="See the game state">
+            :class="{selected: index === selectedStateIndex}">
           <span>Player: "{{ gameState.playerTurn }}"</span>
           <v-btn
-              style="height: 30px; width: 30px"
               class="pa-0"
-              size="small"
+              size="x-small"
               variant="plain"
-              @click="selectState(index)" icon>
+              @click="selectState(index)"
+              icon
+              title="See the game state">
             <v-icon>mdi-restore</v-icon>
           </v-btn>
         </li>
@@ -33,7 +33,7 @@
         <v-btn
             prepend-icon="mdi-restore"
             variant="tonal"
-            size="small"
+            size="x-small"
             class="mt-2"
             @click="restartAtIndex">
           Restart from This State
