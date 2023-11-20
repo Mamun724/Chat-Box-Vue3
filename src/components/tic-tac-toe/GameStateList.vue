@@ -2,30 +2,40 @@
   <div class="state-overview text-left d-flex justify-space-between">
     <ol class="state-list">
       <li v-for="(gameState, index) of gameStates"
-          @click="selectState(index)"
-          class="game-state-list-item px-2 py-0"
+          class="game-state-list-item pl-2 py-0"
           :class="{selected: index === selectedStateIndex}"
           title="See the game state">
-        Player Was: {{ gameState.playerTurn }}
+        <span>Player: "{{ gameState.playerTurn }}"</span>
+        <v-btn
+            style="height: 30px; width: 30px"
+            class="pa-0"
+            size="small"
+            variant="plain"
+            @click="selectState(index)" icon>
+          <v-icon>mdi-restore</v-icon>
+        </v-btn>
       </li>
     </ol>
-    <div v-if="selectedStateIndex !== null" class="state-preview pa-2">
-      <h4 class="overview-head"><em>Selected State Overview</em></h4>
-      <div class="d-flex flex-column">
-        Player: {{ gameStates[selectedStateIndex].playerTurn }}
-        <div v-for="row in boardSize" class="d-flex justify-center">
-          <div v-for="col in boardSize" class="d-inline-block cell text-center">
-            {{ gameStates[selectedStateIndex].board[(row - 1) * boardSize + col - 1] }}
+    <div>
+      <div v-if="selectedStateIndex !== null" class="state-preview pa-2">
+        <h4 class="overview-head"><em>Selected State Overview</em></h4>
+        <div class="d-flex flex-column">
+          Player: {{ gameStates[selectedStateIndex].playerTurn }}
+          <div v-for="row in boardSize" class="d-flex justify-center">
+            <div v-for="col in boardSize" class="d-inline-block cell text-center">
+              {{ gameStates[selectedStateIndex].board[(row - 1) * boardSize + col - 1] }}
+            </div>
           </div>
         </div>
+        <v-btn
+            prepend-icon="mdi-restore"
+            variant="tonal"
+            size="small"
+            class="mt-2"
+            @click="restartAtIndex">
+          Restart from This State
+        </v-btn>
       </div>
-      <v-btn
-          variant="tonal"
-          size="small"
-          class="mt-2"
-          @click="restartAtIndex">
-        Restart from This State
-      </v-btn>
     </div>
   </div>
 </template>
@@ -62,10 +72,6 @@ async function restartAtIndex() {
 .state-overview {
   .state-list {
     padding-left: 20px;
-
-    .game-state-list-item {
-      cursor: pointer;
-    }
 
     .game-state-list-item.selected {
       background-color: #dddddd;
