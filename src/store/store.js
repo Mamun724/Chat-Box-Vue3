@@ -42,13 +42,7 @@ export default createStore({
                 profilePicture: "/assets/user5.jpg"
             },
         ],
-        authenticatedUser: {
-            fullName: "User 5",
-            username: "user5",
-            email: "user5@email.com",
-            password: "123456",
-            profilePicture: "/assets/user5.jpg"
-        },
+        authenticatedUser: null,
         receiverUser: null,
         friendsGraph: {
             "user1@email.com": ["user2@email.com", "user3@email.com", "user5@email.com"],
