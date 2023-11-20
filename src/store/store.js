@@ -97,6 +97,9 @@ export default createStore({
         },
         IsGameEnded(state) {
             return state.gameEnded;
+        },
+        getGameStates(state) {
+            return (opponentEmail) => state.gameStates.get(opponentEmail);
         }
     },
     mutations: {

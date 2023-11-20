@@ -22,6 +22,9 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-container>
+        <GameStateList/>
+      </v-container>
     </div>
   </div>
 </template>
@@ -31,6 +34,7 @@ import GameBoard from "@/components/tic-tac-toe/GameBoardComponent.vue";
 import {computed, onBeforeUnmount, ref, watch} from "vue";
 import {useStore} from "vuex";
 import GameStartCountDownComponent from "@/components/tic-tac-toe/GameStartCountDownComponent.vue";
+import GameStateList from "@/components/tic-tac-toe/GameStateList.vue";
 
 const store = useStore();
 
