@@ -3,7 +3,8 @@
     <GameStartCountDownComponent v-if="showStartCountDown" @counter-ended="startGame"/>
     <div v-if="!showStartCountDown">
       <v-container v-if="gameEnded">
-        Winner is TBD
+        <span v-if="winner !== 'D'">Winner is "{{ winner }}"</span>
+        <span v-else>Game Drawn</span>
       </v-container>
       <v-container>
         <v-row>
@@ -35,6 +36,7 @@ import {computed, onBeforeUnmount, ref, watch} from "vue";
 import {useStore} from "vuex";
 import GameStartCountDownComponent from "@/components/tic-tac-toe/GameStartCountDownComponent.vue";
 import GameStateList from "@/components/tic-tac-toe/GameStateList.vue";
+import {winningStrategy} from "@/components/tic-tac-toe/winningStrategy";
 
 const store = useStore();
 
@@ -45,6 +47,7 @@ const gameEnded = computed(() => store.getters.IsGameEnded);
 const showStartCountDown = ref(true);
 const timeoutRemaining = ref(null);
 const intervalId = ref(null);
+const winner = ref(false);
 
 onBeforeUnmount(() => {
   if (intervalId.value) {
@@ -55,15 +58,29 @@ onBeforeUnmount(() => {
 function startGame() {
   store.commit("setGameEnd", false);
   showStartCountDown.value = false;
-  resetTimer();
+  checkIfWin();
 }
 
 function turnChanged() {
   if (!opponent.value) {
     return;
   }
+  checkIfWin();
+}
 
-  resetTimer();
+function checkIfWin() {
+  winner.value = winningStrategy(
+      lastGameState.value.board,
+      store.state.boardSize
+  );
+
+  if (winner.value) {
+    store.commit("setGameEnd", true);
+    timeoutRemaining.value = 0;
+    clearInterval(intervalId.value);
+  } else {
+    resetTimer();
+  }
 }
 
 function resetTimer() {
